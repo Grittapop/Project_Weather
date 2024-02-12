@@ -106,8 +106,6 @@ with DAG("weather_dag",
         )
 
 
-
-
         t2 = PythonOperator(
             task_id= "transform_load_weather_data_to_S3",
             python_callable=transform_load_data
@@ -122,7 +120,6 @@ with DAG("weather_dag",
                     CREATE DATABASE IF NOT EXISTS Project ;
             """
         )
-
 
 
         t4 = SnowflakeOperator(
@@ -178,7 +175,6 @@ with DAG("weather_dag",
                                     
             """
         )
-
 
 
         t8 = SnowflakeOperator(
