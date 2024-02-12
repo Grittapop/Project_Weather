@@ -1,0 +1,29 @@
+[2024-02-11T08:18:55.620+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: test_redshift_dag.transfer_s3_to_redshift manual__2024-02-11T08:10:39.090060+00:00 [queued]>
+[2024-02-11T08:18:55.632+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: test_redshift_dag.transfer_s3_to_redshift manual__2024-02-11T08:10:39.090060+00:00 [queued]>
+[2024-02-11T08:18:55.633+0000] {taskinstance.py:2170} INFO - Starting attempt 5 of 6
+[2024-02-11T08:18:55.656+0000] {taskinstance.py:2191} INFO - Executing <Task(S3ToRedshiftOperator): transfer_s3_to_redshift> on 2024-02-11 08:10:39.090060+00:00
+[2024-02-11T08:18:55.665+0000] {standard_task_runner.py:60} INFO - Started process 266 to run task
+[2024-02-11T08:18:55.670+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'test_redshift_dag', 'transfer_s3_to_redshift', 'manual__2024-02-11T08:10:39.090060+00:00', '--job-id', '12', '--raw', '--subdir', 'DAGS_FOLDER/s3 _to_redshift.py', '--cfg-path', '/tmp/tmp85yt9feo']
+[2024-02-11T08:18:55.674+0000] {standard_task_runner.py:88} INFO - Job 12: Subtask transfer_s3_to_redshift
+[2024-02-11T08:18:55.742+0000] {task_command.py:423} INFO - Running <TaskInstance: test_redshift_dag.transfer_s3_to_redshift manual__2024-02-11T08:10:39.090060+00:00 [running]> on host 35f4ee28a87c
+[2024-02-11T08:18:55.850+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='test_redshift_dag' AIRFLOW_CTX_TASK_ID='transfer_s3_to_redshift' AIRFLOW_CTX_EXECUTION_DATE='2024-02-11T08:10:39.090060+00:00' AIRFLOW_CTX_TRY_NUMBER='5' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-02-11T08:10:39.090060+00:00'
+[2024-02-11T08:18:55.867+0000] {base.py:83} INFO - Using connection ID 's3_dev_conn' for task execution.
+[2024-02-11T08:18:55.881+0000] {base.py:83} INFO - Using connection ID 's3_dev_conn' for task execution.
+[2024-02-11T08:18:55.883+0000] {connection_wrapper.py:378} INFO - AWS Connection (conn_id='s3_dev_conn', conn_type='aws') credentials retrieved from login and password.
+[2024-02-11T08:18:55.905+0000] {s3_to_redshift.py:192} INFO - Executing COPY command...
+[2024-02-11T08:18:55.919+0000] {base.py:83} INFO - Using connection ID 'redshift_default' for task execution.
+[2024-02-11T08:18:55.921+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/amazon/aws/transfers/s3_to_redshift.py", line 196, in execute
+    redshift_hook.run(sql, autocommit=self.autocommit)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 391, in run
+    with closing(self.get_conn()) as conn:
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/amazon/aws/hooks/redshift_sql.py", line 200, in get_conn
+    return redshift_connector.connect(**conn_kwargs)
+TypeError: connect() got an unexpected keyword argument 'aws_access_key_id'
+[2024-02-11T08:18:55.937+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=test_redshift_dag, task_id=transfer_s3_to_redshift, execution_date=20240211T081039, start_date=20240211T081855, end_date=20240211T081855
+[2024-02-11T08:18:55.959+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 12 for task transfer_s3_to_redshift (connect() got an unexpected keyword argument 'aws_access_key_id'; 266)
+[2024-02-11T08:18:56.003+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2024-02-11T08:18:56.042+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

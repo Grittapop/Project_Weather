@@ -1,0 +1,14 @@
+[2024-02-11T09:11:11.673+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: test_redshift_dag.transfer_s3_to_redshift scheduled__2024-02-11T08:30:00+00:00 [queued]>
+[2024-02-11T09:11:11.713+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: test_redshift_dag.transfer_s3_to_redshift scheduled__2024-02-11T08:30:00+00:00 [queued]>
+[2024-02-11T09:11:11.715+0000] {taskinstance.py:2170} INFO - Starting attempt 3 of 3
+[2024-02-11T09:11:11.787+0000] {taskinstance.py:2191} INFO - Executing <Task(S3ToRedshiftOperator): transfer_s3_to_redshift> on 2024-02-11 08:30:00+00:00
+[2024-02-11T09:11:11.803+0000] {standard_task_runner.py:60} INFO - Started process 143 to run task
+[2024-02-11T09:11:11.813+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'test_redshift_dag', 'transfer_s3_to_redshift', 'scheduled__2024-02-11T08:30:00+00:00', '--job-id', '27', '--raw', '--subdir', 'DAGS_FOLDER/s3 _to_redshift.py', '--cfg-path', '/tmp/tmpxpu0t2p6']
+[2024-02-11T09:11:11.819+0000] {standard_task_runner.py:88} INFO - Job 27: Subtask transfer_s3_to_redshift
+[2024-02-11T09:11:11.922+0000] {task_command.py:423} INFO - Running <TaskInstance: test_redshift_dag.transfer_s3_to_redshift scheduled__2024-02-11T08:30:00+00:00 [running]> on host 35f4ee28a87c
+[2024-02-11T09:11:12.108+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='test_redshift_dag' AIRFLOW_CTX_TASK_ID='transfer_s3_to_redshift' AIRFLOW_CTX_EXECUTION_DATE='2024-02-11T08:30:00+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-02-11T08:30:00+00:00'
+[2024-02-11T09:11:12.131+0000] {base.py:83} INFO - Using connection ID 's3_dev_conn' for task execution.
+[2024-02-11T09:11:12.147+0000] {base.py:83} INFO - Using connection ID 's3_dev_conn' for task execution.
+[2024-02-11T09:11:12.148+0000] {connection_wrapper.py:378} INFO - AWS Connection (conn_id='s3_dev_conn', conn_type='aws') credentials retrieved from login and password.
+[2024-02-11T09:11:12.176+0000] {s3_to_redshift.py:192} INFO - Executing COPY command...
+[2024-02-11T09:11:12.198+0000] {base.py:83} INFO - Using connection ID 'redshift_default' for task execution.

@@ -1,0 +1,34 @@
+[2024-02-10T06:05:24.311+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: weather_dag.transform_load_weather_data_to_S3 manual__2024-02-09T21:58:35.002108+00:00 [queued]>
+[2024-02-10T06:05:24.337+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: weather_dag.transform_load_weather_data_to_S3 manual__2024-02-09T21:58:35.002108+00:00 [queued]>
+[2024-02-10T06:05:24.338+0000] {taskinstance.py:2170} INFO - Starting attempt 3 of 3
+[2024-02-10T06:05:24.371+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): transform_load_weather_data_to_S3> on 2024-02-09 21:58:35.002108+00:00
+[2024-02-10T06:05:24.385+0000] {standard_task_runner.py:60} INFO - Started process 57 to run task
+[2024-02-10T06:05:24.392+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'weather_dag', 'transform_load_weather_data_to_S3', 'manual__2024-02-09T21:58:35.002108+00:00', '--job-id', '42', '--raw', '--subdir', 'DAGS_FOLDER/Weather_dag.py', '--cfg-path', '/tmp/tmpsj_cn4ph']
+[2024-02-10T06:05:24.396+0000] {standard_task_runner.py:88} INFO - Job 42: Subtask transform_load_weather_data_to_S3
+[2024-02-10T06:05:24.513+0000] {task_command.py:423} INFO - Running <TaskInstance: weather_dag.transform_load_weather_data_to_S3 manual__2024-02-09T21:58:35.002108+00:00 [running]> on host 4eff6196d6af
+[2024-02-10T06:05:24.705+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='weather_dag' AIRFLOW_CTX_TASK_ID='transform_load_weather_data_to_S3' AIRFLOW_CTX_EXECUTION_DATE='2024-02-09T21:58:35.002108+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-02-09T21:58:35.002108+00:00'
+[2024-02-10T06:05:25.120+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/Weather_dag.py", line 64, in transform_load_data
+    df_data.to_csv(f"s3://bucket-weather-data/Bangkok/Data/{dt_string}.csv", index=False, storage_options= S3_CONNECTION)
+  File "/home/airflow/.local/lib/python3.8/site-packages/pandas/core/generic.py", line 3772, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+  File "/home/airflow/.local/lib/python3.8/site-packages/pandas/io/formats/format.py", line 1186, in to_csv
+    csv_formatter.save()
+  File "/home/airflow/.local/lib/python3.8/site-packages/pandas/io/formats/csvs.py", line 240, in save
+    with get_handle(
+  File "/home/airflow/.local/lib/python3.8/site-packages/pandas/io/common.py", line 716, in get_handle
+    ioargs = _get_filepath_or_buffer(
+  File "/home/airflow/.local/lib/python3.8/site-packages/pandas/io/common.py", line 414, in _get_filepath_or_buffer
+    file_obj = fsspec.open(
+TypeError: open() argument after ** must be a mapping, not str
+[2024-02-10T06:05:25.152+0000] {taskinstance.py:1138} INFO - Marking task as FAILED. dag_id=weather_dag, task_id=transform_load_weather_data_to_S3, execution_date=20240209T215835, start_date=20240210T060524, end_date=20240210T060525
+[2024-02-10T06:05:25.179+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 42 for task transform_load_weather_data_to_S3 (open() argument after ** must be a mapping, not str; 57)
+[2024-02-10T06:05:25.217+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2024-02-10T06:05:25.263+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check

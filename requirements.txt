@@ -1,0 +1,5 @@
+apache-airflow-providers-http  
+pandas  
+requests 
+boto3 
+botocore

@@ -1,0 +1,38 @@
+[2024-02-11T15:02:27.135+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: test_redshift_dag.transfer_s3_to_redshift scheduled__2024-02-11T14:30:00+00:00 [queued]>
+[2024-02-11T15:02:27.164+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: test_redshift_dag.transfer_s3_to_redshift scheduled__2024-02-11T14:30:00+00:00 [queued]>
+[2024-02-11T15:02:27.165+0000] {taskinstance.py:2170} INFO - Starting attempt 2 of 3
+[2024-02-11T15:02:27.226+0000] {taskinstance.py:2191} INFO - Executing <Task(S3ToRedshiftOperator): transfer_s3_to_redshift> on 2024-02-11 14:30:00+00:00
+[2024-02-11T15:02:27.244+0000] {standard_task_runner.py:60} INFO - Started process 564 to run task
+[2024-02-11T15:02:27.251+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'test_redshift_dag', 'transfer_s3_to_redshift', 'scheduled__2024-02-11T14:30:00+00:00', '--job-id', '81', '--raw', '--subdir', 'DAGS_FOLDER/s3 _to_redshift.py', '--cfg-path', '/tmp/tmpt1by2rbv']
+[2024-02-11T15:02:27.258+0000] {standard_task_runner.py:88} INFO - Job 81: Subtask transfer_s3_to_redshift
+[2024-02-11T15:02:27.352+0000] {task_command.py:423} INFO - Running <TaskInstance: test_redshift_dag.transfer_s3_to_redshift scheduled__2024-02-11T14:30:00+00:00 [running]> on host 35f4ee28a87c
+[2024-02-11T15:02:27.499+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='test_redshift_dag' AIRFLOW_CTX_TASK_ID='transfer_s3_to_redshift' AIRFLOW_CTX_EXECUTION_DATE='2024-02-11T14:30:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-02-11T14:30:00+00:00'
+[2024-02-11T15:02:27.512+0000] {base.py:83} INFO - Using connection ID 's3_dev_conn' for task execution.
+[2024-02-11T15:02:27.521+0000] {base.py:83} INFO - Using connection ID 's3_dev_conn' for task execution.
+[2024-02-11T15:02:27.523+0000] {connection_wrapper.py:378} INFO - AWS Connection (conn_id='s3_dev_conn', conn_type='aws') credentials retrieved from login and password.
+[2024-02-11T15:02:27.540+0000] {s3_to_redshift.py:192} INFO - Executing COPY command...
+[2024-02-11T15:02:27.550+0000] {base.py:83} INFO - Using connection ID 'redshift_default' for task execution.
+[2024-02-11T15:02:37.365+0000] {local_task_job_runner.py:302} WARNING - State of this instance has been externally set to restarting. Terminating instance.
+[2024-02-11T15:02:37.369+0000] {process_utils.py:131} INFO - Sending 15 to group 564. PIDs of all processes in the group: [564]
+[2024-02-11T15:02:37.370+0000] {process_utils.py:86} INFO - Sending the signal 15 to group 564
+[2024-02-11T15:02:37.371+0000] {taskinstance.py:2450} ERROR - Received SIGTERM. Terminating subprocesses.
+[2024-02-11T15:02:37.392+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/amazon/aws/transfers/s3_to_redshift.py", line 196, in execute
+    redshift_hook.run(sql, autocommit=self.autocommit)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 391, in run
+    with closing(self.get_conn()) as conn:
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/amazon/aws/hooks/redshift_sql.py", line 200, in get_conn
+    return redshift_connector.connect(**conn_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/redshift_connector/__init__.py", line 376, in connect
+    return Connection(
+  File "/home/airflow/.local/lib/python3.8/site-packages/redshift_connector/core.py", line 626, in __init__
+    self._usock.connect(hostport)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 2452, in signal_handler
+    raise AirflowException("Task received SIGTERM signal")
+airflow.exceptions.AirflowException: Task received SIGTERM signal
+[2024-02-11T15:02:37.398+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=test_redshift_dag, task_id=transfer_s3_to_redshift, execution_date=20240211T143000, start_date=20240211T150227, end_date=20240211T150237
+[2024-02-11T15:02:37.422+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 81 for task transfer_s3_to_redshift (Task received SIGTERM signal; 564)
+[2024-02-11T15:02:37.464+0000] {process_utils.py:79} INFO - Process psutil.Process(pid=564, status='terminated', exitcode=1, started='15:02:26') (564) terminated with exit code 1

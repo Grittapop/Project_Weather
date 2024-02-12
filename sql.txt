@@ -1,0 +1,16 @@
+CREATE TABLE redshift_test.weather_demo_table (
+    "Time of Record" datetime,
+    City varchar(25),
+    Description varchar(25),
+    "Temperature (C)" float,
+    "Feels Like (C)" float,
+    "Minimun Temp (C)" float,
+    "Maximum Temp (C)" float,
+    Pressure integer,
+    Humidty integer,
+    "Wind Speed" float,
+    "Sunrise (Local Time)" datetime,
+    "Sunset (Local Time)" datetime
+);
+
+
