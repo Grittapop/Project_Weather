@@ -15,8 +15,8 @@ WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?q=Bangkok&app
 
 
 s3_client = boto3.client("s3",
-                        aws_access_key_id="AKIAVRUVRXEMSPKRWLFO",
-                        aws_secret_access_key="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")
+                        aws_access_key_id="xxxxxxxxxxxxxx",
+                        aws_secret_access_key="xxxxxxxxxxxxxxxxxxxxxxxxxxx")
 
 
 def kelvin_to_celsius(temp_in_kelvin): 
