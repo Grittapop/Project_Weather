@@ -1,4 +1,4 @@
-CREATE TABLE redshift_test.weather_demo_table (
+CREATE TABLE weather_demo_table (
     "Time of Record" datetime,
     City varchar(25),
     Description varchar(25),

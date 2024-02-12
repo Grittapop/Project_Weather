@@ -1,0 +1,37 @@
+[2024-02-12T21:07:05.169+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: weather_dag.transform_load_weather_data_to_S3 scheduled__2024-02-12T20:30:00+00:00 [queued]>
+[2024-02-12T21:07:05.182+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: weather_dag.transform_load_weather_data_to_S3 scheduled__2024-02-12T20:30:00+00:00 [queued]>
+[2024-02-12T21:07:05.183+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2024-02-12T21:07:05.201+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): transform_load_weather_data_to_S3> on 2024-02-12 20:30:00+00:00
+[2024-02-12T21:07:05.210+0000] {standard_task_runner.py:60} INFO - Started process 235 to run task
+[2024-02-12T21:07:05.217+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'weather_dag', 'transform_load_weather_data_to_S3', 'scheduled__2024-02-12T20:30:00+00:00', '--job-id', '8', '--raw', '--subdir', 'DAGS_FOLDER/Weather_dag.py', '--cfg-path', '/tmp/tmptzo0k3ph']
+[2024-02-12T21:07:05.220+0000] {standard_task_runner.py:88} INFO - Job 8: Subtask transform_load_weather_data_to_S3
+[2024-02-12T21:07:05.300+0000] {task_command.py:423} INFO - Running <TaskInstance: weather_dag.transform_load_weather_data_to_S3 scheduled__2024-02-12T20:30:00+00:00 [running]> on host 3bd3b2605e24
+[2024-02-12T21:07:05.481+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='weather_dag' AIRFLOW_CTX_TASK_ID='transform_load_weather_data_to_S3' AIRFLOW_CTX_EXECUTION_DATE='2024-02-12T20:30:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-02-12T20:30:00+00:00'
+[2024-02-12T21:07:05.842+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 199, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 216, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/Weather_dag.py", line 70, in transform_load_data
+    dt_string = "current_weather_data_portland_" + dt_string
+UnboundLocalError: local variable 'dt_string' referenced before assignment
+[2024-02-12T21:07:05.861+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=weather_dag, task_id=transform_load_weather_data_to_S3, execution_date=20240212T203000, start_date=20240212T210705, end_date=20240212T210705
+[2024-02-12T21:07:05.884+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 8 for task transform_load_weather_data_to_S3 (local variable 'dt_string' referenced before assignment; 235)
+[2024-02-12T21:07:05.912+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2024-02-12T21:07:05.968+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-02-12T21:13:16.348+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: weather_dag.transform_load_weather_data_to_S3 scheduled__2024-02-12T20:30:00+00:00 [queued]>
+[2024-02-12T21:13:16.362+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: weather_dag.transform_load_weather_data_to_S3 scheduled__2024-02-12T20:30:00+00:00 [queued]>
+[2024-02-12T21:13:16.363+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2024-02-12T21:13:16.382+0000] {taskinstance.py:2191} INFO - Executing <Task(PythonOperator): transform_load_weather_data_to_S3> on 2024-02-12 20:30:00+00:00
+[2024-02-12T21:13:16.392+0000] {standard_task_runner.py:60} INFO - Started process 70 to run task
+[2024-02-12T21:13:16.397+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'weather_dag', 'transform_load_weather_data_to_S3', 'scheduled__2024-02-12T20:30:00+00:00', '--job-id', '16', '--raw', '--subdir', 'DAGS_FOLDER/Weather_dag.py', '--cfg-path', '/tmp/tmp3myrhrpl']
+[2024-02-12T21:13:16.400+0000] {standard_task_runner.py:88} INFO - Job 16: Subtask transform_load_weather_data_to_S3
+[2024-02-12T21:13:16.510+0000] {task_command.py:423} INFO - Running <TaskInstance: weather_dag.transform_load_weather_data_to_S3 scheduled__2024-02-12T20:30:00+00:00 [running]> on host 3bd3b2605e24
+[2024-02-12T21:13:16.659+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='weather_dag' AIRFLOW_CTX_TASK_ID='transform_load_weather_data_to_S3' AIRFLOW_CTX_EXECUTION_DATE='2024-02-12T20:30:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-02-12T20:30:00+00:00'
+[2024-02-12T21:13:17.329+0000] {python.py:201} INFO - Done. Returned value was: None
+[2024-02-12T21:13:17.349+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=weather_dag, task_id=transform_load_weather_data_to_S3, execution_date=20240212T203000, start_date=20240212T211316, end_date=20240212T211317
+[2024-02-12T21:13:17.413+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2024-02-12T21:13:17.473+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

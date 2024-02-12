@@ -2,11 +2,13 @@ from airflow import DAG
 from datetime import timedelta, datetime
 from airflow.providers.http.sensors.http import HttpSensor
 from airflow.operators.python import PythonOperator
-from airflow.operators.bash_operator import BashOperator
+from airflow.contrib.operators.snowflake_operator import SnowflakeOperator
 import pandas as pd
 import requests
 import json
 import boto3
+
+
 
 
 # URL
@@ -14,9 +16,12 @@ WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?q=Bangkok&app
 
 
 
+
 s3_client = boto3.client("s3",
-                        aws_access_key_id="xxxxxxxxxxxxxx",
-                        aws_secret_access_key="xxxxxxxxxxxxxxxxxxxxxxxxxxx")
+                        aws_access_key_id="xxxxxxxxxxxxxxxxx",
+                        aws_secret_access_key="xxxxxxxxxxxxxxxxxxxx")
+
+
 
 
 def kelvin_to_celsius(temp_in_kelvin): 
@@ -58,18 +63,23 @@ def transform_load_data():
     
     transformed_data_list = [transformed_data]
     df_data = pd.DataFrame(transformed_data_list)
+
+    csv_data = df_data.to_csv(index=False)
     
     now = datetime.now()
     dt_string = now.strftime("%d%m%Y%H%M%S")
     dt_string = "current_weather_data_portland_" + dt_string
-
-    csv_data = df_data.to_csv(index=False)
     
     # Upload CSV to S3
     bucket_name = "bucket-weather-data"
     object_key = f"{dt_string}.csv"
     s3_client.put_object(Bucket=bucket_name, Key=object_key, Body=csv_data)
+     
+    S3_DATA_URL = f"s3://bucket-weather-data/{dt_string}.csv"
     
+    return S3_DATA_URL 
+
+
 
 default_args = {
     "owner": "stellar",
@@ -84,7 +94,7 @@ default_args = {
 
 with DAG("weather_dag",
         default_args=default_args,
-        schedule_interval = "*/30 * * * *",
+        schedule_interval = "@hourly",
         catchup=False) as dag:
 
 
@@ -105,4 +115,81 @@ with DAG("weather_dag",
         )
 
 
-t1 >> t2
+        t3 = SnowflakeOperator(
+            task_id = "create_snowflake_database",
+            snowflake_conn_id = "conn_id_snowflake",           
+            sql = """
+                    CREATE DATABASE IF NOT EXISTS Project ;
+            """
+        )
+
+
+
+        t4 = SnowflakeOperator(
+            task_id = "create_snowflake_schema",
+            snowflake_conn_id = "conn_id_snowflake",           
+            sql = """
+                    CREATE SCHEMA IF NOT EXISTS Weather ;
+            """
+        )
+
+
+        t5 = SnowflakeOperator(
+            task_id = "create_snowflake_table",
+            snowflake_conn_id = "conn_id_snowflake",           
+            sql = """
+                    CREATE TABLE IF NOT EXISTS Bangkok (
+                        "Time of Record" datetime,
+                        City varchar(25),
+                        Description varchar(25),
+                        "Temperature (C)" float,
+                        "Feels Like (C)" float,
+                        "Minimun Temp (C)" float,
+                        "Maximum Temp (C)" float,
+                        Pressure integer,
+                        Humidty integer,
+                        "Wind Speed" float,
+                        "Sunrise (Local Time)" datetime,
+                        "Sunset (Local Time)" datetime
+                    );
+            """
+        )
+
+
+        t6 = SnowflakeOperator(
+            task_id = "create_snowflake_external_stage",
+            snowflake_conn_id = "conn_id_snowflake",           
+            sql = """
+                    CREATE OR REPLACE STAGE s3_stage
+                        URL = "{{ti.xcom_pull("transform_load_weather_data_to_S3")}}"
+                        credentials=(aws_key_id='xxxxxxxxxxxxxxxx' aws_secret_key='xxxxxxxxxxxxxxxxxxxxxxxxxxx');
+                
+            """
+        )
+
+
+        t7 = SnowflakeOperator(
+            task_id = "create_snowflake_file_format",
+            snowflake_conn_id = "conn_id_snowflake",           
+            sql = """
+                    CREATE OR REPLACE file format csv_format type = 'csv' compression = 'auto' 
+                        field_delimiter = ',' record_delimiter = '\n'
+                        skip_header = 1 trim_space = false;
+                                    
+            """
+        )
+
+
+
+        t8 = SnowflakeOperator(
+            task_id = "load_data_into_the_table",
+            snowflake_conn_id = "conn_id_snowflake",           
+            sql = """
+                    COPY INTO Bangkok from @s3_stage file_format=csv_format;
+
+            """
+        )
+
+
+
+t1 >> t2 >> t3 >> t4 >> t5 >> t6 >> t7 >> t8

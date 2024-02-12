@@ -1,0 +1,232 @@
+[2024-02-12T21:32:02.658+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [queued]>
+[2024-02-12T21:32:02.679+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [queued]>
+[2024-02-12T21:32:02.680+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2024-02-12T21:32:02.712+0000] {taskinstance.py:2191} INFO - Executing <Task(SnowflakeOperator): create_snowflake_external_stage> on 2024-02-12 21:00:00+00:00
+[2024-02-12T21:32:02.726+0000] {standard_task_runner.py:60} INFO - Started process 100 to run task
+[2024-02-12T21:32:02.738+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'weather_dag', 'create_snowflake_external_stage', 'scheduled__2024-02-12T21:00:00+00:00', '--job-id', '44', '--raw', '--subdir', 'DAGS_FOLDER/Weather_dag.py', '--cfg-path', '/tmp/tmposg3l516']
+[2024-02-12T21:32:02.740+0000] {standard_task_runner.py:88} INFO - Job 44: Subtask create_snowflake_external_stage
+[2024-02-12T21:32:02.829+0000] {task_command.py:423} INFO - Running <TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [running]> on host 3bd3b2605e24
+[2024-02-12T21:32:02.964+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='weather_dag' AIRFLOW_CTX_TASK_ID='create_snowflake_external_stage' AIRFLOW_CTX_EXECUTION_DATE='2024-02-12T21:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-02-12T21:00:00+00:00'
+[2024-02-12T21:32:02.966+0000] {sql.py:276} INFO - Executing: 
+                    CREATE OR REPLACE s3_stage
+                        URL = "s3://bucket-weather-data/current_weather_data_portland_12022024213138.csv"
+                        credentials=(aws_key_id="AKIAVRUVRXEM77SSYROY" aws_secret_key="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");
+                
+            
+[2024-02-12T21:32:02.984+0000] {base.py:83} INFO - Using connection ID 'conn_id_snowflake' for task execution.
+[2024-02-12T21:32:03.000+0000] {base.py:83} INFO - Using connection ID 'conn_id_snowflake' for task execution.
+[2024-02-12T21:32:03.003+0000] {connection.py:370} INFO - Snowflake Connector for Python Version: 3.6.0, Python Version: 3.8.18, Platform: Linux-5.15.133.1-microsoft-standard-WSL2-x86_64-with-glibc2.34
+[2024-02-12T21:32:03.006+0000] {connection.py:1171} INFO - This connection is in OCSP Fail Open Mode. TLS Certificates would be checked for validity and revocation status. Any other Certificate Revocation related exceptions or OCSP Responder failures would be disregarded in favor of connectivity.
+[2024-02-12T21:32:03.381+0000] {cursor.py:1028} INFO - query: [ALTER SESSION SET autocommit=False]
+[2024-02-12T21:32:03.478+0000] {cursor.py:1041} INFO - query execution done
+[2024-02-12T21:32:03.481+0000] {cursor.py:1205} INFO - Number of results in first chunk: 1
+[2024-02-12T21:32:03.484+0000] {sql.py:450} INFO - Running statement: CREATE OR REPLACE s3_stage
+                        URL = "s3://bucket-weather-data/current_weather_data_portland_12022024213138.csv"
+                        credentials=(aws_key_id="AKIAVRUVRXEM77SSYROY" aws_secret_key="6K0K3J/4qOYp3hPjFgDcayWYKoNNZF9DmVD581vs");, parameters: None
+[2024-02-12T21:32:03.486+0000] {cursor.py:1028} INFO - query: [CREATE OR REPLACE s3_stage URL = "s3://bucket-weather-data/current_weather_data_...]
+[2024-02-12T21:32:03.584+0000] {cursor.py:1041} INFO - query execution done
+[2024-02-12T21:32:03.613+0000] {connection.py:718} INFO - closed
+[2024-02-12T21:32:03.677+0000] {connection.py:724} INFO - No async queries seem to be running, deleting session
+[2024-02-12T21:32:03.735+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/operators/sql.py", line 282, in execute
+    output = hook.run(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/snowflake/hooks/snowflake.py", line 388, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 455, in _run_command
+    cur.execute(sql_statement)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/cursor.py", line 1132, in execute
+    Error.errorhandler_wrapper(self.connection, self, error_class, errvalue)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 290, in errorhandler_wrapper
+    handed_over = Error.hand_to_other_handler(
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 345, in hand_to_other_handler
+    cursor.errorhandler(connection, cursor, error_class, error_value)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 221, in default_errorhandler
+    raise error_class(
+snowflake.connector.errors.ProgrammingError: 001003 (42000): 01b24f2c-3200-fe5c-0007-a44e000113be: SQL compilation error:
+syntax error line 2 at position 28 unexpected '='.
+syntax error line 3 at position 71 unexpected 'aws_secret_key'.
+syntax error line 3 at position 128 unexpected ')'.
+[2024-02-12T21:32:03.752+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=weather_dag, task_id=create_snowflake_external_stage, execution_date=20240212T210000, start_date=20240212T213202, end_date=20240212T213203
+[2024-02-12T21:32:03.801+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 44 for task create_snowflake_external_stage (001003 (42000): 01b24f2c-3200-fe5c-0007-a44e000113be: SQL compilation error:
+syntax error line 2 at position 28 unexpected '='.
+syntax error line 3 at position 71 unexpected 'aws_secret_key'.
+syntax error line 3 at position 128 unexpected ')'.; 100)
+[2024-02-12T21:32:03.838+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2024-02-12T21:32:03.934+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-02-12T21:37:21.039+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [queued]>
+[2024-02-12T21:37:21.055+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [queued]>
+[2024-02-12T21:37:21.056+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2024-02-12T21:37:21.077+0000] {taskinstance.py:2191} INFO - Executing <Task(SnowflakeOperator): create_snowflake_external_stage> on 2024-02-12 21:00:00+00:00
+[2024-02-12T21:37:21.085+0000] {standard_task_runner.py:60} INFO - Started process 102 to run task
+[2024-02-12T21:37:21.090+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'weather_dag', 'create_snowflake_external_stage', 'scheduled__2024-02-12T21:00:00+00:00', '--job-id', '57', '--raw', '--subdir', 'DAGS_FOLDER/Weather_dag.py', '--cfg-path', '/tmp/tmpwds_jhf6']
+[2024-02-12T21:37:21.093+0000] {standard_task_runner.py:88} INFO - Job 57: Subtask create_snowflake_external_stage
+[2024-02-12T21:37:21.170+0000] {task_command.py:423} INFO - Running <TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [running]> on host 3bd3b2605e24
+[2024-02-12T21:37:21.307+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='weather_dag' AIRFLOW_CTX_TASK_ID='create_snowflake_external_stage' AIRFLOW_CTX_EXECUTION_DATE='2024-02-12T21:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-02-12T21:00:00+00:00'
+[2024-02-12T21:37:21.310+0000] {sql.py:276} INFO - Executing: 
+                    CREATE OR REPLACE s3_stage
+                        URL = "s3://bucket-weather-data/current_weather_data_portland_12022024213702.csv"
+                        credentials=(aws_key_id="AKIAVRUVRXEM77SSYROY" aws_secret_key="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");
+                
+            
+[2024-02-12T21:37:21.325+0000] {base.py:83} INFO - Using connection ID 'conn_id_snowflake' for task execution.
+[2024-02-12T21:37:21.340+0000] {base.py:83} INFO - Using connection ID 'conn_id_snowflake' for task execution.
+[2024-02-12T21:37:21.341+0000] {connection.py:370} INFO - Snowflake Connector for Python Version: 3.6.0, Python Version: 3.8.18, Platform: Linux-5.15.133.1-microsoft-standard-WSL2-x86_64-with-glibc2.34
+[2024-02-12T21:37:21.343+0000] {connection.py:1171} INFO - This connection is in OCSP Fail Open Mode. TLS Certificates would be checked for validity and revocation status. Any other Certificate Revocation related exceptions or OCSP Responder failures would be disregarded in favor of connectivity.
+[2024-02-12T21:37:21.733+0000] {cursor.py:1028} INFO - query: [ALTER SESSION SET autocommit=False]
+[2024-02-12T21:37:21.815+0000] {cursor.py:1041} INFO - query execution done
+[2024-02-12T21:37:21.817+0000] {cursor.py:1205} INFO - Number of results in first chunk: 1
+[2024-02-12T21:37:21.819+0000] {sql.py:450} INFO - Running statement: CREATE OR REPLACE s3_stage
+                        URL = "s3://bucket-weather-data/current_weather_data_portland_12022024213702.csv"
+                        credentials=(aws_key_id="AKIAVRUVRXEM77SSYROY" aws_secret_key="6K0K3J/4qOYp3hPjFgDcayWYKoNNZF9DmVD581vs");, parameters: None
+[2024-02-12T21:37:21.820+0000] {cursor.py:1028} INFO - query: [CREATE OR REPLACE s3_stage URL = "s3://bucket-weather-data/current_weather_data_...]
+[2024-02-12T21:37:21.903+0000] {cursor.py:1041} INFO - query execution done
+[2024-02-12T21:37:21.917+0000] {connection.py:718} INFO - closed
+[2024-02-12T21:37:21.978+0000] {connection.py:724} INFO - No async queries seem to be running, deleting session
+[2024-02-12T21:37:22.038+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/operators/sql.py", line 282, in execute
+    output = hook.run(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/snowflake/hooks/snowflake.py", line 388, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 455, in _run_command
+    cur.execute(sql_statement)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/cursor.py", line 1132, in execute
+    Error.errorhandler_wrapper(self.connection, self, error_class, errvalue)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 290, in errorhandler_wrapper
+    handed_over = Error.hand_to_other_handler(
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 345, in hand_to_other_handler
+    cursor.errorhandler(connection, cursor, error_class, error_value)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 221, in default_errorhandler
+    raise error_class(
+snowflake.connector.errors.ProgrammingError: 001003 (42000): 01b24f31-3200-fe68-0007-a44e000103f6: SQL compilation error:
+syntax error line 2 at position 28 unexpected '='.
+syntax error line 3 at position 71 unexpected 'aws_secret_key'.
+syntax error line 3 at position 128 unexpected ')'.
+[2024-02-12T21:37:22.049+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=weather_dag, task_id=create_snowflake_external_stage, execution_date=20240212T210000, start_date=20240212T213721, end_date=20240212T213722
+[2024-02-12T21:37:24.520+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 57 for task create_snowflake_external_stage (001003 (42000): 01b24f31-3200-fe68-0007-a44e000103f6: SQL compilation error:
+syntax error line 2 at position 28 unexpected '='.
+syntax error line 3 at position 71 unexpected 'aws_secret_key'.
+syntax error line 3 at position 128 unexpected ')'.; 102)
+[2024-02-12T21:37:24.558+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2024-02-12T21:37:24.611+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-02-12T21:50:05.477+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [queued]>
+[2024-02-12T21:50:05.496+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [queued]>
+[2024-02-12T21:50:05.497+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2024-02-12T21:50:05.544+0000] {taskinstance.py:2191} INFO - Executing <Task(SnowflakeOperator): create_snowflake_external_stage> on 2024-02-12 21:00:00+00:00
+[2024-02-12T21:50:05.555+0000] {standard_task_runner.py:60} INFO - Started process 101 to run task
+[2024-02-12T21:50:05.561+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'weather_dag', 'create_snowflake_external_stage', 'scheduled__2024-02-12T21:00:00+00:00', '--job-id', '81', '--raw', '--subdir', 'DAGS_FOLDER/Weather_dag.py', '--cfg-path', '/tmp/tmp8m7k78eo']
+[2024-02-12T21:50:05.564+0000] {standard_task_runner.py:88} INFO - Job 81: Subtask create_snowflake_external_stage
+[2024-02-12T21:50:05.653+0000] {task_command.py:423} INFO - Running <TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [running]> on host 3bd3b2605e24
+[2024-02-12T21:50:05.825+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='weather_dag' AIRFLOW_CTX_TASK_ID='create_snowflake_external_stage' AIRFLOW_CTX_EXECUTION_DATE='2024-02-12T21:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-02-12T21:00:00+00:00'
+[2024-02-12T21:50:05.827+0000] {sql.py:276} INFO - Executing: 
+                    CREATE OR REPLACE s3_stage
+                        URL = s3://bucket-weather-data/current_weather_data_portland_12022024214945.csv
+                        credentials=(aws_key_id="AKIAVRUVRXEM77SSYROY" aws_secret_key="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");
+                
+            
+[2024-02-12T21:50:05.849+0000] {base.py:83} INFO - Using connection ID 'conn_id_snowflake' for task execution.
+[2024-02-12T21:50:05.867+0000] {base.py:83} INFO - Using connection ID 'conn_id_snowflake' for task execution.
+[2024-02-12T21:50:05.868+0000] {connection.py:370} INFO - Snowflake Connector for Python Version: 3.6.0, Python Version: 3.8.18, Platform: Linux-5.15.133.1-microsoft-standard-WSL2-x86_64-with-glibc2.34
+[2024-02-12T21:50:05.871+0000] {connection.py:1171} INFO - This connection is in OCSP Fail Open Mode. TLS Certificates would be checked for validity and revocation status. Any other Certificate Revocation related exceptions or OCSP Responder failures would be disregarded in favor of connectivity.
+[2024-02-12T21:50:06.411+0000] {cursor.py:1028} INFO - query: [ALTER SESSION SET autocommit=False]
+[2024-02-12T21:50:06.491+0000] {cursor.py:1041} INFO - query execution done
+[2024-02-12T21:50:06.492+0000] {cursor.py:1205} INFO - Number of results in first chunk: 1
+[2024-02-12T21:50:06.493+0000] {sql.py:450} INFO - Running statement: CREATE OR REPLACE s3_stage
+                        URL = s3://bucket-weather-data/current_weather_data_portland_12022024214945.csv
+                        credentials=(aws_key_id="AKIAVRUVRXEM77SSYROY" aws_secret_key="6K0K3J/4qOYp3hPjFgDcayWYKoNNZF9DmVD581vs");, parameters: None
+[2024-02-12T21:50:06.494+0000] {cursor.py:1028} INFO - query: [CREATE OR REPLACE s3_stage URL = s3://bucket-weather-data/current_weather_data_p...]
+[2024-02-12T21:50:06.570+0000] {cursor.py:1041} INFO - query execution done
+[2024-02-12T21:50:06.581+0000] {connection.py:718} INFO - closed
+[2024-02-12T21:50:06.649+0000] {connection.py:724} INFO - No async queries seem to be running, deleting session
+[2024-02-12T21:50:06.708+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/operators/sql.py", line 282, in execute
+    output = hook.run(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/snowflake/hooks/snowflake.py", line 388, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 455, in _run_command
+    cur.execute(sql_statement)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/cursor.py", line 1132, in execute
+    Error.errorhandler_wrapper(self.connection, self, error_class, errvalue)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 290, in errorhandler_wrapper
+    handed_over = Error.hand_to_other_handler(
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 345, in hand_to_other_handler
+    cursor.errorhandler(connection, cursor, error_class, error_value)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 221, in default_errorhandler
+    raise error_class(
+snowflake.connector.errors.ProgrammingError: 001003 (42000): 01b24f3e-3200-fe68-0007-a44e00010462: SQL compilation error:
+syntax error line 2 at position 28 unexpected '='.
+syntax error line 3 at position 71 unexpected 'aws_secret_key'.
+syntax error line 3 at position 128 unexpected ')'.
+[2024-02-12T21:50:06.719+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=weather_dag, task_id=create_snowflake_external_stage, execution_date=20240212T210000, start_date=20240212T215005, end_date=20240212T215006
+[2024-02-12T21:50:06.790+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 81 for task create_snowflake_external_stage (001003 (42000): 01b24f3e-3200-fe68-0007-a44e00010462: SQL compilation error:
+syntax error line 2 at position 28 unexpected '='.
+syntax error line 3 at position 71 unexpected 'aws_secret_key'.
+syntax error line 3 at position 128 unexpected ')'.; 101)
+[2024-02-12T21:50:06.824+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2024-02-12T21:50:06.883+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-02-12T21:56:28.433+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [queued]>
+[2024-02-12T21:56:28.470+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [queued]>
+[2024-02-12T21:56:28.471+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2024-02-12T21:56:28.916+0000] {taskinstance.py:2191} INFO - Executing <Task(SnowflakeOperator): create_snowflake_external_stage> on 2024-02-12 21:00:00+00:00
+[2024-02-12T21:56:28.929+0000] {standard_task_runner.py:60} INFO - Started process 110 to run task
+[2024-02-12T21:56:28.944+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'weather_dag', 'create_snowflake_external_stage', 'scheduled__2024-02-12T21:00:00+00:00', '--job-id', '97', '--raw', '--subdir', 'DAGS_FOLDER/Weather_dag.py', '--cfg-path', '/tmp/tmpar4b49_z']
+[2024-02-12T21:56:28.948+0000] {standard_task_runner.py:88} INFO - Job 97: Subtask create_snowflake_external_stage
+[2024-02-12T21:56:29.041+0000] {task_command.py:423} INFO - Running <TaskInstance: weather_dag.create_snowflake_external_stage scheduled__2024-02-12T21:00:00+00:00 [running]> on host 3bd3b2605e24
+[2024-02-12T21:56:29.676+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='weather_dag' AIRFLOW_CTX_TASK_ID='create_snowflake_external_stage' AIRFLOW_CTX_EXECUTION_DATE='2024-02-12T21:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-02-12T21:00:00+00:00'
+[2024-02-12T21:56:29.679+0000] {sql.py:276} INFO - Executing: 
+                    CREATE OR REPLACE s3_stage
+                        URL = "s3://bucket-weather-data/current_weather_data_portland_12022024215601.csv"
+                        credentials=(aws_key_id="AKIAVRUVRXEM77SSYROY" aws_secret_key="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");
+                
+            
+[2024-02-12T21:56:29.699+0000] {base.py:83} INFO - Using connection ID 'conn_id_snowflake' for task execution.
+[2024-02-12T21:56:29.719+0000] {base.py:83} INFO - Using connection ID 'conn_id_snowflake' for task execution.
+[2024-02-12T21:56:29.721+0000] {connection.py:370} INFO - Snowflake Connector for Python Version: 3.6.0, Python Version: 3.8.18, Platform: Linux-5.15.133.1-microsoft-standard-WSL2-x86_64-with-glibc2.34
+[2024-02-12T21:56:29.724+0000] {connection.py:1171} INFO - This connection is in OCSP Fail Open Mode. TLS Certificates would be checked for validity and revocation status. Any other Certificate Revocation related exceptions or OCSP Responder failures would be disregarded in favor of connectivity.
+[2024-02-12T21:56:30.105+0000] {cursor.py:1028} INFO - query: [ALTER SESSION SET autocommit=False]
+[2024-02-12T21:56:30.199+0000] {cursor.py:1041} INFO - query execution done
+[2024-02-12T21:56:30.201+0000] {cursor.py:1205} INFO - Number of results in first chunk: 1
+[2024-02-12T21:56:30.202+0000] {sql.py:450} INFO - Running statement: CREATE OR REPLACE s3_stage
+                        URL = "s3://bucket-weather-data/current_weather_data_portland_12022024215601.csv"
+                        credentials=(aws_key_id="AKIAVRUVRXEM77SSYROY" aws_secret_key="6K0K3J/4qOYp3hPjFgDcayWYKoNNZF9DmVD581vs");, parameters: None
+[2024-02-12T21:56:30.202+0000] {cursor.py:1028} INFO - query: [CREATE OR REPLACE s3_stage URL = "s3://bucket-weather-data/current_weather_data_...]
+[2024-02-12T21:56:30.286+0000] {cursor.py:1041} INFO - query execution done
+[2024-02-12T21:56:30.296+0000] {connection.py:718} INFO - closed
+[2024-02-12T21:56:30.358+0000] {connection.py:724} INFO - No async queries seem to be running, deleting session
+[2024-02-12T21:56:30.420+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/operators/sql.py", line 282, in execute
+    output = hook.run(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/snowflake/hooks/snowflake.py", line 388, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 455, in _run_command
+    cur.execute(sql_statement)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/cursor.py", line 1132, in execute
+    Error.errorhandler_wrapper(self.connection, self, error_class, errvalue)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 290, in errorhandler_wrapper
+    handed_over = Error.hand_to_other_handler(
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 345, in hand_to_other_handler
+    cursor.errorhandler(connection, cursor, error_class, error_value)
+  File "/home/airflow/.local/lib/python3.8/site-packages/snowflake/connector/errors.py", line 221, in default_errorhandler
+    raise error_class(
+snowflake.connector.errors.ProgrammingError: 001003 (42000): 01b24f44-3200-fe5c-0007-a44e000114b2: SQL compilation error:
+syntax error line 2 at position 28 unexpected '='.
+syntax error line 3 at position 71 unexpected 'aws_secret_key'.
+syntax error line 3 at position 128 unexpected ')'.
+[2024-02-12T21:56:30.436+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=weather_dag, task_id=create_snowflake_external_stage, execution_date=20240212T210000, start_date=20240212T215628, end_date=20240212T215630
+[2024-02-12T21:56:30.463+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 97 for task create_snowflake_external_stage (001003 (42000): 01b24f44-3200-fe5c-0007-a44e000114b2: SQL compilation error:
+syntax error line 2 at position 28 unexpected '='.
+syntax error line 3 at position 71 unexpected 'aws_secret_key'.
+syntax error line 3 at position 128 unexpected ')'.; 110)
+[2024-02-12T21:56:30.518+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2024-02-12T21:56:30.557+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
