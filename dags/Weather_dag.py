@@ -3,6 +3,7 @@ from datetime import timedelta, datetime
 from airflow.providers.http.sensors.http import HttpSensor
 from airflow.operators.python import PythonOperator
 from airflow.contrib.operators.snowflake_operator import SnowflakeOperator
+from discord import SyncWebhook
 import pandas as pd
 import requests
 import json
@@ -78,6 +79,11 @@ def transform_load_data():
     S3_DATA_URL = f"s3://bucket-weather-data/{dt_string}.csv"
     
     return S3_DATA_URL 
+
+
+def notify_discord():
+    webhook = SyncWebhook.from_url("url-here")
+    webhook.send("Your pipeline has loaded data into snowflake successfully on {{ ds }}")
 
 
 
@@ -187,5 +193,10 @@ with DAG("weather_dag",
         )
 
 
+        t9 = PythonOperator(
+            task_id= "notify_by_discord",
+            python_callable=notify_discord 
+        )
 
-t1 >> t2 >> t3 >> t4 >> t5 >> t6 >> t7 >> t8
+
+t1 >> t2 >> t3 >> t4 >> t5 >> t6 >> t7 >> t8 >> t9
