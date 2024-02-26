@@ -1,0 +1,34 @@
+[2024-02-26T22:23:33.909+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: weather_dag.create_snowflake_schema manual__2024-02-26T22:23:15.253172+00:00 [queued]>
+[2024-02-26T22:23:33.937+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: weather_dag.create_snowflake_schema manual__2024-02-26T22:23:15.253172+00:00 [queued]>
+[2024-02-26T22:23:33.938+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2024-02-26T22:23:33.964+0000] {taskinstance.py:2191} INFO - Executing <Task(SnowflakeOperator): create_snowflake_schema> on 2024-02-26 22:23:15.253172+00:00
+[2024-02-26T22:23:33.974+0000] {standard_task_runner.py:60} INFO - Started process 82 to run task
+[2024-02-26T22:23:33.980+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'weather_dag', 'create_snowflake_schema', 'manual__2024-02-26T22:23:15.253172+00:00', '--job-id', '30', '--raw', '--subdir', 'DAGS_FOLDER/Weather_dag.py', '--cfg-path', '/tmp/tmp9n9x3t6k']
+[2024-02-26T22:23:33.983+0000] {standard_task_runner.py:88} INFO - Job 30: Subtask create_snowflake_schema
+[2024-02-26T22:23:34.069+0000] {task_command.py:423} INFO - Running <TaskInstance: weather_dag.create_snowflake_schema manual__2024-02-26T22:23:15.253172+00:00 [running]> on host 5d25474dd79a
+[2024-02-26T22:23:34.187+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='weather_dag' AIRFLOW_CTX_TASK_ID='create_snowflake_schema' AIRFLOW_CTX_EXECUTION_DATE='2024-02-26T22:23:15.253172+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-02-26T22:23:15.253172+00:00'
+[2024-02-26T22:23:34.189+0000] {sql.py:276} INFO - Executing: 
+                    CREATE SCHEMA IF NOT EXISTS Weather ;
+            
+[2024-02-26T22:23:34.208+0000] {base.py:83} INFO - Using connection ID 'conn_id_snowflake' for task execution.
+[2024-02-26T22:23:34.220+0000] {base.py:83} INFO - Using connection ID 'conn_id_snowflake' for task execution.
+[2024-02-26T22:23:34.222+0000] {connection.py:370} INFO - Snowflake Connector for Python Version: 3.6.0, Python Version: 3.8.18, Platform: Linux-5.15.133.1-microsoft-standard-WSL2-x86_64-with-glibc2.34
+[2024-02-26T22:23:34.224+0000] {connection.py:1171} INFO - This connection is in OCSP Fail Open Mode. TLS Certificates would be checked for validity and revocation status. Any other Certificate Revocation related exceptions or OCSP Responder failures would be disregarded in favor of connectivity.
+[2024-02-26T22:23:34.582+0000] {cursor.py:1028} INFO - query: [ALTER SESSION SET autocommit=False]
+[2024-02-26T22:23:34.658+0000] {cursor.py:1041} INFO - query execution done
+[2024-02-26T22:23:34.659+0000] {cursor.py:1205} INFO - Number of results in first chunk: 1
+[2024-02-26T22:23:34.660+0000] {sql.py:450} INFO - Running statement: CREATE SCHEMA IF NOT EXISTS Weather ;, parameters: None
+[2024-02-26T22:23:34.661+0000] {cursor.py:1028} INFO - query: [CREATE SCHEMA IF NOT EXISTS Weather ;]
+[2024-02-26T22:23:34.730+0000] {cursor.py:1041} INFO - query execution done
+[2024-02-26T22:23:34.731+0000] {cursor.py:1205} INFO - Number of results in first chunk: 1
+[2024-02-26T22:23:34.733+0000] {sql.py:459} INFO - Rows affected: 1
+[2024-02-26T22:23:34.737+0000] {snowflake.py:400} INFO - Rows affected: 1
+[2024-02-26T22:23:34.738+0000] {snowflake.py:401} INFO - Snowflake query id: 01b29e1f-3201-0135-0000-000805ce40c5
+[2024-02-26T22:23:34.740+0000] {cursor.py:1028} INFO - query: [COMMIT]
+[2024-02-26T22:23:34.817+0000] {cursor.py:1041} INFO - query execution done
+[2024-02-26T22:23:34.819+0000] {cursor.py:1205} INFO - Number of results in first chunk: 1
+[2024-02-26T22:23:34.821+0000] {connection.py:718} INFO - closed
+[2024-02-26T22:23:34.913+0000] {connection.py:724} INFO - No async queries seem to be running, deleting session
+[2024-02-26T22:23:35.022+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=weather_dag, task_id=create_snowflake_schema, execution_date=20240226T222315, start_date=20240226T222333, end_date=20240226T222335
+[2024-02-26T22:23:35.079+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2024-02-26T22:23:35.130+0000] {taskinstance.py:3280} INFO - 1 downstream tasks scheduled from follow-on schedule check

@@ -3,7 +3,6 @@ from datetime import timedelta, datetime
 from airflow.providers.http.sensors.http import HttpSensor
 from airflow.operators.python import PythonOperator
 from airflow.contrib.operators.snowflake_operator import SnowflakeOperator
-from discord import SyncWebhook
 import pandas as pd
 import requests
 import json
@@ -14,13 +13,13 @@ import boto3
 
 # URL
 WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?q=Bangkok&appid=d69585a88935d2a759a90a77d406e260"
-
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1211338624939851836/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 
 
 s3_client = boto3.client("s3",
-                        aws_access_key_id="xxxxxxxxxxxxxxxxx",
-                        aws_secret_access_key="xxxxxxxxxxxxxxxxxxxx")
+                        aws_access_key_id= 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                        aws_secret_access_key= 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 
 
 
@@ -82,8 +81,8 @@ def transform_load_data():
 
 
 def notify_discord():
-    webhook = SyncWebhook.from_url("url-here")
-    webhook.send("Your pipeline has loaded data into snowflake successfully on {{ ds }}")
+    data = {"content": "Your pipeline has loaded data into snowflake successfully on  " + datetime.now().strftime('%Y-%m-%d')}    
+    response = requests.post(DISCORD_WEBHOOK_URL, json=data)
 
 
 
@@ -100,7 +99,7 @@ default_args = {
 
 with DAG("weather_dag",
         default_args=default_args,
-        schedule_interval = "@hourly",
+        schedule_interval = "* */6 * * *",
         catchup=False) as dag:
 
 
@@ -165,7 +164,7 @@ with DAG("weather_dag",
             sql = """
                     CREATE OR REPLACE STAGE s3_stage
                         URL = "{{ti.xcom_pull("transform_load_weather_data_to_S3")}}"
-                        credentials=(aws_key_id='xxxxxxxxxxxxxxxx' aws_secret_key='xxxxxxxxxxxxxxxxxxxxxxxxxxx');
+                        credentials=(aws_key_id='xxxxxxxxxxxxxxxxxxxxxx' aws_secret_key='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
                 
             """
         )
