@@ -77,7 +77,7 @@ def transform_load_data():
 
 
 def notify_discord():
-    data = {"content": "Your pipeline has loaded data into snowflake successfully on  " + datetime.now().strftime('%Y-%m-%d')}    
+    data = {"content": "Your pipeline has loaded data into S3 successfully on  " + datetime.now().strftime("%Y-%m-%d-%H%-M%-S")}    
     response = requests.post(DISCORD_WEBHOOK_URL, json=data)
 
 
@@ -98,7 +98,6 @@ default_args = {
 with DAG("weather_dag",
         default_args=default_args,
         schedule_interval = "* */6 * * *",
-        on_failure_callback = slack_alert,
         catchup=False) as dag:
 
 
