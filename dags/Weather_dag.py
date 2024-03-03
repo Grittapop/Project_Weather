@@ -77,7 +77,7 @@ def transform_load_data():
 
 
 def notify_discord():
-    data = {"content": "Your pipeline has loaded data into S3 successfully on  " + datetime.now().strftime("%Y-%m-%d-%H%-M%-S")}    
+    data = {"content": "Your pipeline has loaded data into S3 successfully on {{ ts }}"}   
     response = requests.post(DISCORD_WEBHOOK_URL, json=data)
 
 
