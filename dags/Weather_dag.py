@@ -2,7 +2,6 @@ from airflow import DAG
 from datetime import timedelta, datetime
 from airflow.providers.http.sensors.http import HttpSensor
 from airflow.operators.python import PythonOperator
-from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
 import pandas as pd
 import requests
 import json
