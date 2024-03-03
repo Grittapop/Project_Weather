@@ -2,7 +2,7 @@ from airflow import DAG
 from datetime import timedelta, datetime
 from airflow.providers.http.sensors.http import HttpSensor
 from airflow.operators.python import PythonOperator
-from airflow.contrib.operators.snowflake_operator import SnowflakeOperator
+from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
 import pandas as pd
 import requests
 import json
@@ -74,15 +74,14 @@ def transform_load_data():
     bucket_name = "bucket-weather-data"
     object_key = f"{dt_string}.csv"
     s3_client.put_object(Bucket=bucket_name, Key=object_key, Body=csv_data)
-     
-    S3_DATA_URL = f"s3://bucket-weather-data/{dt_string}.csv"
-    
-    return S3_DATA_URL 
+
 
 
 def notify_discord():
     data = {"content": "Your pipeline has loaded data into snowflake successfully on  " + datetime.now().strftime('%Y-%m-%d')}    
     response = requests.post(DISCORD_WEBHOOK_URL, json=data)
+
+
 
 
 
@@ -100,6 +99,7 @@ default_args = {
 with DAG("weather_dag",
         default_args=default_args,
         schedule_interval = "* */6 * * *",
+        on_failure_callback = slack_alert,
         catchup=False) as dag:
 
 
@@ -118,84 +118,11 @@ with DAG("weather_dag",
         )
 
 
-        t3 = SnowflakeOperator(
-            task_id = "create_snowflake_database",
-            snowflake_conn_id = "conn_id_snowflake",           
-            sql = """
-                    CREATE DATABASE IF NOT EXISTS Project ;
-            """
-        )
-
-
-        t4 = SnowflakeOperator(
-            task_id = "create_snowflake_schema",
-            snowflake_conn_id = "conn_id_snowflake",           
-            sql = """
-                    CREATE SCHEMA IF NOT EXISTS Weather ;
-            """
-        )
-
-
-        t5 = SnowflakeOperator(
-            task_id = "create_snowflake_table",
-            snowflake_conn_id = "conn_id_snowflake",           
-            sql = """
-                    CREATE TABLE IF NOT EXISTS Bangkok (
-                        "Time of Record" datetime,
-                        City varchar(25),
-                        Description varchar(25),
-                        "Temperature (C)" float,
-                        "Feels Like (C)" float,
-                        "Minimun Temp (C)" float,
-                        "Maximum Temp (C)" float,
-                        Pressure integer,
-                        Humidty integer,
-                        "Wind Speed" float,
-                        "Sunrise (Local Time)" datetime,
-                        "Sunset (Local Time)" datetime
-                    );
-            """
-        )
-
-
-        t6 = SnowflakeOperator(
-            task_id = "create_snowflake_external_stage",
-            snowflake_conn_id = "conn_id_snowflake",           
-            sql = """
-                    CREATE OR REPLACE STAGE s3_stage
-                        URL = "{{ti.xcom_pull("transform_load_weather_data_to_S3")}}"
-                        credentials=(aws_key_id='xxxxxxxxxxxxxxxxxxxxxx' aws_secret_key='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-                
-            """
-        )
-
-
-        t7 = SnowflakeOperator(
-            task_id = "create_snowflake_file_format",
-            snowflake_conn_id = "conn_id_snowflake",           
-            sql = """
-                    CREATE OR REPLACE file format csv_format type = 'csv' compression = 'auto' 
-                        field_delimiter = ',' record_delimiter = '\n'
-                        skip_header = 1 trim_space = false;
-                                    
-            """
-        )
-
-
-        t8 = SnowflakeOperator(
-            task_id = "load_data_into_the_table",
-            snowflake_conn_id = "conn_id_snowflake",           
-            sql = """
-                    COPY INTO Bangkok from @s3_stage file_format=csv_format;
-
-            """
-        )
-
-
-        t9 = PythonOperator(
+        t3 = PythonOperator(
             task_id= "notify_by_discord",
             python_callable=notify_discord 
         )
 
 
-t1 >> t2 >> t3 >> t4 >> t5 >> t6 >> t7 >> t8 >> t9
+
+t1 >> t2 >> t3
