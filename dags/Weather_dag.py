@@ -6,19 +6,20 @@ import pandas as pd
 import requests
 import json
 import boto3
+import pytz
 
 
 
 
 # URL
 WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?q=Bangkok&appid=d69585a88935d2a759a90a77d406e260"
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1211338624939851836/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1211338624939851836/XePed4q7D4ztpuCUQPT1BbMtdokzvyl0bwP6zEpeTflDhiAsI5gnSEiSZTFPXdmsZQFI"
 
 
 
 s3_client = boto3.client("s3",
-                        aws_access_key_id= 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-                        aws_secret_access_key= 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+                        aws_access_key_id= "AKIAVRUVRXEM4WDBFMMK",
+                        aws_secret_access_key= "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")
 
 
 
@@ -65,7 +66,8 @@ def transform_load_data():
 
     csv_data = df_data.to_csv(index=False)
     
-    now = datetime.now()
+    thai_timezone = pytz.timezone('Asia/Bangkok')
+    now = datetime.now(tz=thai_timezone)
     dt_string = now.strftime("%d%m%Y%H%M%S")
     dt_string = "current_weather_data_portland_" + dt_string
     
@@ -77,7 +79,9 @@ def transform_load_data():
 
 
 def notify_discord():
-    data = {"content": "Your pipeline has loaded data into S3 successfully on {{ ts }}"}   
+    thai_timezone = pytz.timezone('Asia/Bangkok')
+    now = datetime.now(tz=thai_timezone)
+    data = {"content": "Your pipeline has loaded data into S3 successfully on " + now.strftime("%Y-%m-%d %H:%M:%S")}   
     response = requests.post(DISCORD_WEBHOOK_URL, json=data)
 
 

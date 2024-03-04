@@ -1,0 +1,35 @@
+[2024-03-04T09:58:10.462+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: weather_dag.weather_api_ready manual__2024-03-04T09:58:02.790685+00:00 [queued]>
+[2024-03-04T09:58:10.482+0000] {taskinstance.py:1956} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: weather_dag.weather_api_ready manual__2024-03-04T09:58:02.790685+00:00 [queued]>
+[2024-03-04T09:58:10.483+0000] {taskinstance.py:2170} INFO - Starting attempt 1 of 3
+[2024-03-04T09:58:10.510+0000] {taskinstance.py:2191} INFO - Executing <Task(HttpSensor): weather_api_ready> on 2024-03-04 09:58:02.790685+00:00
+[2024-03-04T09:58:10.523+0000] {standard_task_runner.py:60} INFO - Started process 80 to run task
+[2024-03-04T09:58:10.531+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'weather_dag', 'weather_api_ready', 'manual__2024-03-04T09:58:02.790685+00:00', '--job-id', '5', '--raw', '--subdir', 'DAGS_FOLDER/Weather_dag.py', '--cfg-path', '/tmp/tmpzusn1ob4']
+[2024-03-04T09:58:10.534+0000] {standard_task_runner.py:88} INFO - Job 5: Subtask weather_api_ready
+[2024-03-04T09:58:10.627+0000] {task_command.py:423} INFO - Running <TaskInstance: weather_dag.weather_api_ready manual__2024-03-04T09:58:02.790685+00:00 [running]> on host 4f01ef8a3140
+[2024-03-04T09:58:10.756+0000] {taskinstance.py:2480} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='stellar' AIRFLOW_CTX_DAG_ID='weather_dag' AIRFLOW_CTX_TASK_ID='weather_api_ready' AIRFLOW_CTX_EXECUTION_DATE='2024-03-04T09:58:02.790685+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-03-04T09:58:02.790685+00:00'
+[2024-03-04T09:58:10.758+0000] {http.py:130} INFO - Poking: /data/2.5/weather?q=Bangkok&appid=d69585a88935d2a759a90a77d406e260
+[2024-03-04T09:58:10.788+0000] {taskinstance.py:2698} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/taskinstance.py", line 433, in _execute_task
+    result = execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/sensors/base.py", line 265, in execute
+    raise e
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/sensors/base.py", line 247, in execute
+    poke_return = self.poke(context)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/http/sensors/http.py", line 148, in poke
+    raise exc
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/http/sensors/http.py", line 132, in poke
+    response = hook.run(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/http/hooks/http.py", line 145, in run
+    session = self.get_conn(headers)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/http/hooks/http.py", line 98, in get_conn
+    conn = self.get_connection(self.http_conn_id)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/hooks/base.py", line 82, in get_connection
+    conn = Connection.get_connection_from_secrets(conn_id)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/models/connection.py", line 479, in get_connection_from_secrets
+    raise AirflowNotFoundException(f"The conn_id `{conn_id}` isn't defined")
+airflow.exceptions.AirflowNotFoundException: The conn_id `weather_conn_id` isn't defined
+[2024-03-04T09:58:10.794+0000] {taskinstance.py:1138} INFO - Marking task as UP_FOR_RETRY. dag_id=weather_dag, task_id=weather_api_ready, execution_date=20240304T095802, start_date=20240304T095810, end_date=20240304T095810
+[2024-03-04T09:58:10.817+0000] {standard_task_runner.py:107} ERROR - Failed to execute job 5 for task weather_api_ready (The conn_id `weather_conn_id` isn't defined; 80)
+[2024-03-04T09:58:10.863+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 1
+[2024-03-04T09:58:10.904+0000] {taskinstance.py:3280} INFO - 0 downstream tasks scheduled from follow-on schedule check
