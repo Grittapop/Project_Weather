@@ -13,13 +13,13 @@ import pytz
 
 # URL
 WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?q=Bangkok&appid=d69585a88935d2a759a90a77d406e260"
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1211338624939851836/XePed4q7D4ztpuCUQPT1BbMtdokzvyl0bwP6zEpeTflDhiAsI5gnSEiSZTFPXdmsZQFI"
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1211338624939851836/******************************************************"
 
 
 
 s3_client = boto3.client("s3",
-                        aws_access_key_id= "AKIAVRUVRXEM4WDBFMMK",
-                        aws_secret_access_key= "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")
+                        aws_access_key_id= "************************",
+                        aws_secret_access_key= "********************************")
 
 
 
