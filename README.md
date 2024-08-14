@@ -53,5 +53,10 @@ In the Airflow UI, find the **Weather_dag**, and trigger it manually or let it r
 
 Feel free to modify the instructions and configurations according to your specific setup and requirements.
 
+## References
+- [Apache Airflow Docker Compose Documentation](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)- Learn how to set up and configure Apache Airflow using Docker Compose.
+- [OpenWeatherMap Current Weather API Documentation](https://openweathermap.org/current)- Learn how to fetch current weather data using the OpenWeatherMap API
+
+
 
 
